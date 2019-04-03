@@ -24,7 +24,7 @@ MQTT协议有两个主要的版本，[MQTT 3](http://docs.oasis-open.org/mqtt/mq
 
 MQTT通过以下方式进行数据交互。
 
-![1554173672594](C:\Users\zengsam\AppData\Roaming\Typora\typora-user-images\1554173672594.png)
+![1554173672594](./img/mqtt-architecture.png)
 
 
 
