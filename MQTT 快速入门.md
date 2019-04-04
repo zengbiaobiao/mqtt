@@ -26,63 +26,61 @@ Client mosqsub|3508-SCNWCL0121 received SUBACK
 Subscribed (mid: 1): 0
 ```
 
-- 以上第一行是命令，使用mosquitto_sub命令订阅主题。
+以上第一行是命令，使用mosquitto_sub命令订阅主题。
 
-  -d 参数表示启用debug模式，这样mosquitto_sub会显示详细的连接以及数据收发过程。
+-d 参数表示启用debug模式，这样mosquitto_sub会显示详细的连接以及数据收发过程。
 
-  -t topic1 表示需要订阅主题topic1。
+-t topic1 表示需要订阅主题topic1。
 
-  这里有些参数没写，都使用了默认值，如host使用了localhost，port使用了1883，并且使用了"mosqsub|3508-SCNWCL0121"作为Client ID，其中3508是进程Id，SCNWCL0121是我的机器名。
+这里有些参数没写，都使用了默认值，如host使用了localhost，port使用了1883，并且使用了"mosqsub|3508-SCNWCL0121"作为Client ID，其中3508是进程Id，SCNWCL0121是我的机器名。
 
-  如果要指定host，port以及Client Id，可以这样使用。
+如果要指定host，port以及Client Id，可以这样使用。
 
-  ```
-  $ mosquitto_sub -d -h localhost -p 1883 -i subscriber-test -t topic1
-  Client subscriber-test sending CONNECT
-  Client subscriber-test received CONNACK (0)
-  Client subscriber-test sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)
-  Client subscriber-test received SUBACK
-  Subscribed (mid: 1): 0
-  ```
+```
+$ mosquitto_sub -d -h localhost -p 1883 -i subscriber-test -t topic1
+Client subscriber-test sending CONNECT
+Client subscriber-test received CONNACK (0)
+Client subscriber-test sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)
+Client subscriber-test received SUBACK
+Subscribed (mid: 1): 0
+```
 
-  -h 表示host
+-h 表示host
 
-  -p 表示port
+-p 表示port
 
-  -i 表示客户端ID。
+-i 表示客户端ID。
 
-  其实所有的命令行使用都可以使用--help进行查阅，输入
+其实所有的命令行使用都可以使用--help进行查阅，输入
 
-  ```
-  $ mosquitto_sub --help
-  ```
+`$ mosquitto_sub --help`
 
-  你就会看到它的详细用法，所有参数都显示出来了，很详细。
+你就会看到它的详细用法，所有参数都显示出来了，很详细。
 
-- 第二行和第三行是建立连接的过程。
+第二行和第三行是建立连接的过程。
 
-  ```
-  Client mosqsub|3508-SCNWCL0121 sending CONNECT
-  Client mosqsub|3508-SCNWCL0121 received CONNACK (0)
-  ```
+```
+Client mosqsub|3508-SCNWCL0121 sending CONNECT
+Client mosqsub|3508-SCNWCL0121 received CONNACK (0)
+```
 
-  表示客户端“mosqsub|3508-SCNWCL0121”发送CONNECT，同时Broker回复CONNACK (0)。其中0是状态码，表示连接成功。如果是其它数字，则表示连接失败。失败的原因有很多，比如不支持当前协议，服务器不可用等等，具体可参见[Connect Return Code](<http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718035>)。
+表示客户端“mosqsub|3508-SCNWCL0121”发送CONNECT，同时Broker回复CONNACK (0)。其中0是状态码，表示连接成功。如果是其它数字，则表示连接失败。失败的原因有很多，比如不支持当前协议，服务器不可用等等，具体可参见[Connect Return Code](<http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718035>)。
 
-- 第四行到第六行是订阅主题的过程，
+第四行到第六行是订阅主题的过程，
 
-  ```
-  Client mosqsub|3508-SCNWCL0121 sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)
-  Client mosqsub|3508-SCNWCL0121 received SUBACK
-  Subscribed (mid: 1): 0
-  ```
+```
+Client mosqsub|3508-SCNWCL0121 sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)
+Client mosqsub|3508-SCNWCL0121 received SUBACK
+Subscribed (mid: 1): 0
+```
 
-  sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)表示发送订阅请求，
+sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)表示发送订阅请求，
 
-  Mid是Message Id，从1开始计算，当一个连接发送多条消息时，Mid是递增的。
+Mid是Message Id，从1开始计算，当一个连接发送多条消息时，Mid是递增的。
 
-  Topic:topic1表示要订阅的主题时topic1。
+Topic:topic1表示要订阅的主题时topic1。
 
-  QoS：0指定了QoS等级，默认是0。
+QoS：0指定了QoS等级，默认是0。
 
 
 ### 发布消息
@@ -97,35 +95,35 @@ Client mosqpub|12796-SCNWCL012 sending PUBLISH (d0, q0, r0, m1, 'topic1', ... (1
 Client mosqpub|12796-SCNWCL012 sending DISCONNECT
 ```
 
-- 第一行是发布消息命令，将消息发布到主题topic1，-m 指定了发送消息的内容是"Hello MQTT"。我们同样启用了debug模式。
+第一行是发布消息命令，将消息发布到主题topic1，-m 指定了发送消息的内容是"Hello MQTT"。我们同样启用了debug模式。
 
-- 第二行和第三行是连接过程
+第二行和第三行是连接过程
 
-- 第四行是发布的消息信息。
+第四行是发布的消息信息。
 
-  ```
-  Client mosqpub|12796-SCNWCL012 sending PUBLISH (d0, q0, r0, m1, 'topic1', ... (10 bytes))
-  ```
+```
+Client mosqpub|12796-SCNWCL012 sending PUBLISH (d0, q0, r0, m1, 'topic1', ... (10 bytes))
+```
 
-  其中d0, q0, r0, m1,分别是发布消息指定的参数，这里使用默认参数。
+其中d0, q0, r0, m1,分别是发布消息指定的参数，这里使用默认参数。
 
-  d0表示DUP为0，DUP是是否重复标记，如果是第一次发送消息，则设置为0。如果是重复投递，比如QoS设置为1，客户端发送消息超时后服务器还没有回复，客户端为确保消息能发出去，于是再发一次，这是DUP就设置为1，表明这个消息是重复发送的。
+d0表示DUP为0，DUP是是否重复标记，如果是第一次发送消息，则设置为0。如果是重复投递，比如QoS设置为1，客户端发送消息超时后服务器还没有回复，客户端为确保消息能发出去，于是再发一次，这是DUP就设置为1，表明这个消息是重复发送的。
 
-  q0表示QoS为0。
+q0表示QoS为0。
 
-  r0表示RETAIN为0。RETAIN意思是是否要求Broker帮我保留这条消息，如果设置为1，则服务器会保留当前消息。当下一次有新的客户端连接并订阅topic1时，服务器自动发送这条保留的消息给客户端。
+r0表示RETAIN为0。RETAIN意思是是否要求Broker帮我保留这条消息，如果设置为1，则服务器会保留当前消息。当下一次有新的客户端连接并订阅topic1时，服务器自动发送这条保留的消息给客户端。
 
-  m1表示消息序号，默认从1开始。
+m1表示消息序号，默认从1开始。
 
-  topic1是发布到这个主题。
+topic1是发布到这个主题。
 
-  ... (10 bytes)没有显示消息内容，但是显示了消息长度是10个字节。
+... (10 bytes)没有显示消息内容，但是显示了消息长度是10个字节。
 
-- 最后一行是断开连接。
+最后一行是断开连接。
 
-  ```
-  Client mosqpub|12796-SCNWCL012 sending DISCONNECT
-  ```
+`Client mosqpub|12796-SCNWCL012 sending DISCONNECT`
+
+
 
 
 ### 接收消息
@@ -177,9 +175,7 @@ Client mosqpub|14788-SCNWCL012 sending DISCONNECT
 
 当我们发送消息时，如果增加参数-q 1，表示QoS设置成1。数据包就会多出一个回复。
 
-```
-Client mosqpub|14788-SCNWCL012 received PUBACK (Mid: 1)
-```
+`Client mosqpub|14788-SCNWCL012 received PUBACK (Mid: 1)`
 
 QoS的实现机制比较复杂，后续我会专门写一篇文章讲[MQTT QoS](<http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099>)，有兴趣的可以自己点击链接先去看看。
 

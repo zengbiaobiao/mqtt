@@ -62,11 +62,11 @@ MQTT 也有很多客户端实现版本，大多数编程语言都有MQTT客户�
 
 MQTT也提供了一些工具，方便开发测试，具体请参见[MQTT Tools](<https://github.com/mqtt/mqtt.github.io/wiki/tools>)，这里推荐几个比较好用的并且跨平台的工具。
 
-- [MQTT-spy](http://kamilfb.github.io/mqtt-spy/)，Java版本的客户端工具，提供可视化界面，要求安装JRE/JDK 8u60 以上版本。
-- [MQTT Lens](https://chrome.google.com/webstore/detail/mqttlens/hemojaaeigabkbcookmlgmdigohjobjm)，Chrome插件，方便使用。
-- [Mosquitto](<https://mosquitto.org/download/>)，是MQTT的完整实现，包含了服务端和客户端，它非常轻量级，并且使用简单，所以适合初学者，也有很多公司在产品环境中使用它，不过产品环境的使用配置要多很多。它是基于命令行的，在Linux环境下也很方便使用。
+**[MQTT-spy](http://kamilfb.github.io/mqtt-spy/)**，Java版本的客户端工具，提供可视化界面，要求安装JRE/JDK 8u60 以上版本。
 
+**[MQTT Lens](https://chrome.google.com/webstore/detail/mqttlens/hemojaaeigabkbcookmlgmdigohjobjm)**，Chrome插件，方便使用。
 
+**[Mosquitto](<https://mosquitto.org/download/>)**，是MQTT的完整实现，包含了服务端和客户端，它非常轻量级，并且使用简单，所以适合初学者，也有很多公司在产品环境中使用它，不过产品环境的使用配置要多很多。它是基于命令行的，在Linux环境下也很方便使用。
 
 到现在为止，应该对MQTT有一个大致的了解了，下一节我们将体验一下使用MQTT进行数据的发布和订阅。请参见[MQTT快速入门]()。
 
