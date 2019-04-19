@@ -17,7 +17,7 @@
 
 打开命令行终端，输入如下命令订阅主题topic1。
 
-```
+```shell
 $ mosquitto_sub -d -t topic1 
 Client mosqsub|3508-SCNWCL0121 sending CONNECT
 Client mosqsub|3508-SCNWCL0121 received CONNACK (0)
@@ -36,7 +36,7 @@ Subscribed (mid: 1): 0
 
 如果要指定host，port以及Client Id，可以这样使用。
 
-```
+```shell
 $ mosquitto_sub -d -h localhost -p 1883 -i subscriber-test -t topic1
 Client subscriber-test sending CONNECT
 Client subscriber-test received CONNACK (0)
@@ -59,7 +59,7 @@ Subscribed (mid: 1): 0
 
 第二行和第三行是建立连接的过程。
 
-```
+```shell
 Client mosqsub|3508-SCNWCL0121 sending CONNECT
 Client mosqsub|3508-SCNWCL0121 received CONNACK (0)
 ```
@@ -68,7 +68,7 @@ Client mosqsub|3508-SCNWCL0121 received CONNACK (0)
 
 第四行到第六行是订阅主题的过程，
 
-```
+```shell
 Client mosqsub|3508-SCNWCL0121 sending SUBSCRIBE (Mid: 1, Topic: topic1, QoS: 0)
 Client mosqsub|3508-SCNWCL0121 received SUBACK
 Subscribed (mid: 1): 0
@@ -87,7 +87,7 @@ QoS：0指定了QoS等级，默认是0。
 
 打开一个新的命令行终端，输入以下命令
 
-```
+```shell
 $ mosquitto_pub -d -t topic1 -m "Hello MQTT"
 Client mosqpub|12796-SCNWCL012 sending CONNECT
 Client mosqpub|12796-SCNWCL012 received CONNACK (0)
@@ -101,7 +101,7 @@ Client mosqpub|12796-SCNWCL012 sending DISCONNECT
 
 第四行是发布的消息信息。
 
-```
+```shell
 Client mosqpub|12796-SCNWCL012 sending PUBLISH (d0, q0, r0, m1, 'topic1', ... (10 bytes))
 ```
 
@@ -130,7 +130,7 @@ topic1是发布到这个主题。
 
 发布完消息后，再回到之前订阅的终端，会显示接收到的消息。
 
-```
+```shell
 Client mosqsub|11104-SCNWCL012 received PUBLISH (d0, q0, r0, m0, 'topic1', ... (10 bytes))
 topic1 Hello MQTT
 ```
@@ -143,7 +143,7 @@ topic1 Hello MQTT
 
 Mosquitto是很容易使用的MQTT实现，包含了服务端和客户端。在这个实验中，我们其实就执行了两条命令。
 
-```
+```shell
 $ mosquitto_sub -d -t topic1 
 $ mosquitto_pub -d -t topic1 -m "Hello MQTT"
 ```
@@ -156,7 +156,7 @@ QoS是服务质量保证，在发布消息时，当QoS设置为0，那么客户�
 
 QoS设置为1时，客户端发送消息后，会等待Broker确认，如果等不到PUBACK，那么过一段时间后会重新发送。这样确保Broker能收到消息。我们来对比一下。
 
-```
+```shell
 $ mosquitto_pub -d -t topic1 -m "Hello MQTT"
 Client mosqpub|6188-SCNWCL0121 sending CONNECT
 Client mosqpub|6188-SCNWCL0121 received CONNACK (0)
@@ -164,7 +164,7 @@ Client mosqpub|6188-SCNWCL0121 sending PUBLISH (d0, q0, r0, m1, 'topic1', ... (1
 Client mosqpub|6188-SCNWCL0121 sending DISCONNECT
 ```
 
-```
+```shell
 $ mosquitto_pub -d -q 1 -t topic1 -m "Hello MQTT"
 Client mosqpub|14788-SCNWCL012 sending CONNECT
 Client mosqpub|14788-SCNWCL012 received CONNACK (0)
@@ -179,3 +179,8 @@ Client mosqpub|14788-SCNWCL012 sending DISCONNECT
 
 QoS的实现机制比较复杂，后续我会专门写一篇文章讲[MQTT QoS](<http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099>)，有兴趣的可以自己点击链接先去看看。
 
+
+
+---
+
+所有文章在[Github](<https://github.com/zengbiaobiao/mqtt>)上同步，你也可以访问我的[个人博客](http://zengbiaobiao.com)点击查看

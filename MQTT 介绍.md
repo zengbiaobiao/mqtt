@@ -68,5 +68,10 @@ MQTT也提供了一些工具，方便开发测试，具体请参见[MQTT Tools](
 
 **[Mosquitto](<https://mosquitto.org/download/>)**，是MQTT的完整实现，包含了服务端和客户端，它非常轻量级，并且使用简单，所以适合初学者，也有很多公司在产品环境中使用它，不过产品环境的使用配置要多很多。它是基于命令行的，在Linux环境下也很方便使用。
 
-到现在为止，应该对MQTT有一个大致的了解了，下一节我们将体验一下使用MQTT进行数据的发布和订阅。请参见[MQTT快速入门]()。
+到现在为止，应该对MQTT有一个大致的了解了，下一节我们将体验一下使用MQTT进行数据的发布和订阅。请参见[MQTT快速入门](<https://zengbiaobiao.com/article/detail/24>)。
 
+
+
+---
+
+所有文章在[Github](<https://github.com/zengbiaobiao/mqtt>)上同步，你也可以访问我的[个人博客](http://zengbiaobiao.com)点击查看
