@@ -6,13 +6,7 @@
 
 MQTT协议是应用层协议，需要借助TCP/IP协议进行传输，类似HTTP协议。MQTT协议也有自己的格式，如下表：
 
-<table>
-    <tr>
-    	<td colspan=2>Fixed Header</td>
-        <td>Variable Header</td>
-        <td>Payload</td>
-    </tr>
-</table>
+*[ Fixed Header | Variable Header | Payload]*
 
 **Fixed Header:** 固定头部，MQTT协议分很多种类型，如连接，发布，订阅，心跳等。其中固定头是必须的，所有类型的MQTT协议中，都必须包含固定头。
 
@@ -30,28 +24,11 @@ MQTT协议是应用层协议，需要借助TCP/IP协议进行传输，类似HTTP
 
 固定头包含两部分内容，首字节(字节1)和剩余消息报文长度(1-4字节)。
 
-<table>
-    <tr>
-        <td><b>Bit</b></td>
-        <td><b>7</b></td>
-        <td><b>6</b></td>
-        <td><b>5</b></td>
-        <td><b>4</b></td>
-        <td><b>3</b></td>
-        <td><b>2</b></td>
-        <td><b>1</b></td>
-        <td><b>0</b></td>
-    </tr>
-    <tr>
-    	<td>字节1</td>
-        <td colspan=4>MQTT Control Packet type</td>
-        <td colspan=4>Flags specific to each MQTT Control Packet type</td>
-    </tr>
-    <tr>
-    	<td>字节2...</td>
-        <td colspan=8>Remaining Length</td>
-    </tr>
-</table>
+| Bit       | 7         | 6       | 5      | 4    | 3                                               | 2                                        | 1                                             | 0                                            |
+| --------- | --------- | ------- | ------ | ---- | ----------------------------------------------- | ---------------------------------------- | --------------------------------------------- | -------------------------------------------- |
+| Byte 1    | MQTT      | Control | Packet | type | <span style="color:green">Flags specific</span> | <span style="color:green">to each</span> | <span style="color:green">MQTT Control</span> | <span style="color:green">Packet type</span> |
+| Byte 2... | Remaining | Length  |        |      |                                                 |                                          |                                               |                                              |
+
 
 为了避免翻译不准确，这里都使用官方的原始术语。其中MQTT Control Packet type可以简单理解为字节位Bit[7-4]用于确定报文类型。Flags specific to each MQTT Control Packet type意思是字节位Bit[3-0]用作某些报文的特殊标记。
 
@@ -59,255 +36,43 @@ MQTT协议是应用层协议，需要借助TCP/IP协议进行传输，类似HTTP
 
 首字节用于表示MQTT消息的报文类型以及某些类型的控制标记，如上图。高4位(bit7~bit4)表示协议类型，总共可以表示16种协议类型，其中0000和1111是保留字段。MQTT消息报文类型如下。
 
-<table>
-    <tr>
-    	<td><b>报文类型</b></td>
-        <td><b>字段值</b></td>
-        <td><b>数据方向</b></td>
-        <td><b>描述</b></td>
-    </tr>
-    <tr>
-        <td>保留</td>
-        <td>0</td>
-        <td>禁用</td>
-        <td>保留</td>
-    </tr>
-    <tr>
-        <td>CONNECT</td>
-        <td>1</td>
-        <td>Client---&gtServer</td>
-        <td>客户端请求连接到服务器</td>
-    </tr>
-    <tr>
-        <td>CONNACK</td>
-        <td>2</td>
-        <td>Server---&gtClient</td>
-        <td>连接确认</td>
-    </tr>
-    <tr>
-        <td>PUBLISH</td>
-        <td>3</td>
-        <td>Client&lt---&gtServer</td>
-        <td>发布消息</td>
-    </tr>
-    <tr>
-        <td>PUBACK</td>
-        <td>4</td>
-        <td>Client&lt---&gtServer</td>
-        <td>发布确认</td>
-    </tr>
-    <tr>
-        <td>PUBREC</td>
-        <td>5</td>
-        <td>Client&lt---&gtServer</td>
-        <td>消息已接收(可靠性传输第一阶段)</td>
-    </tr>
-    <tr>
-        <td>PUBREL</td>
-        <td>6</td>
-        <td>Client&lt---&gtServer</td>
-        <td>释放消息(可行性传输第二阶段)</td>
-    </tr>
-    <tr>
-        <td>PUBCOMP</td>
-        <td>7</td>
-        <td>Client&lt---&gtServer</td>
-        <td>发布结束(可靠性传输第三阶段)</td>
-    </tr>
-    <tr>
-        <td>SUBSCRIBE</td>
-        <td>8</td>
-        <td>Client---&gtServer</td>
-        <td>客户端订阅请求</td>
-    </tr>
-    <tr>
-        <td>SUBACK</td>
-        <td>9</td>
-        <td>Server---&gtClient</td>
-        <td>订阅确认</td>
-    </tr>
-    <tr>
-        <td>UNSUBSCRIBE</td>
-        <td>10</td>
-        <td>Client---&gtServer</td>
-        <td>客户端订阅请求</td>
-    </tr>
-    <tr>
-        <td>UNSUBACK</td>
-        <td>11</td>
-        <td>Server---&gtClient</td>
-        <td>服务器取消订阅回复</td>
-    </tr>
-    <tr>
-        <td>PINGREQ</td>
-        <td>12</td>
-        <td>Client---&gtServer</td>
-        <td>客户端发送心跳请求</td>
-    </tr>
-    <tr>
-        <td>PINGRESP</td>
-        <td>13</td>
-        <td>Server---&gtClient</td>
-        <td>服务器回复心跳</td>
-    </tr>
-    <tr>
-        <td>DISCONNECT</td>
-        <td>14</td>
-        <td>Client---&gtServer</td>
-        <td>断开连接请求</td>
-    </tr>
-    <tr>
-        <td>保留</td>
-        <td>0</td>
-        <td>禁用</td>
-        <td>保留</td>
-    </tr>
-</table>
-
+| 报文类型    | 字段值 | 数据方向           | 描述                     |
+| ----------- | ------ | ------------------ | ------------------------ |
+| 保留        | 0      | 禁用               | 保留                     |
+| CONNECT     | 1      | Client ---> Server | 客户端连接到服务器       |
+| CONNACK     | 2      | Server ---> Client | 连接确认                 |
+| PUBLISH     | 3      | Client <--> Server | 发布消息                 |
+| PUBACK      | 4      | Client <--> Server | 发不确认                 |
+| PUBREC      | 5      | Client <--> Server | 消息已接收(QoS2第一阶段) |
+| PUBREL      | 6      | Client <--> Server | 消息释放(QoS2第二阶段)   |
+| PUBCOMP     | 7      | Client <--> Server | 发布结束(QoS2第三阶段)   |
+| SUBSCRIBE   | 8      | Client ---> Server | 客户端订阅请求           |
+| SUBACK      | 9      | Server ---> Client | 服务端订阅确认           |
+| UNSUBACRIBE | 10     | Client ---> Server | 客户端取消订阅           |
+| UNSUBACK    | 11     | Server ---> Client | 服务端取消订阅确认       |
+| PINGREQ     | 12     | Client ---> Server | 客户端发送心跳           |
+| PINGRESP    | 13     | Server ---> Client | 服务端回复心跳           |
+| DISCONNECT  | 14     | Client ---> Server | 客户端断开连接请求       |
+| 保留        | 15     | 禁用               | 保留                     |
 
 首字节的低4位(bit3~bit0)用来表示某些报文类型的控制字段，实际上只有少数报文类型有控制位，如下图。
 
-<table>
-    <tr>
-    	<td><b>报文类型</b></td>
-        <td><b>固定头标记</b></td>
-        <td><b>Bit 3</b></td>
-        <td><b>Bit 2</b></td>
-        <td><b>Bit 1</b></td>
-        <td><b>Bit 0</b></td>
-    </tr>
-    <tr>
-    	<td>CONNECT</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>CONNACK</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>PUBLISH</td>
-        <td>Used in MQTT 3.1.1</td>
-        <td>DUP</td>
-        <td>QoS</td>
-        <td>QoS</td>
-        <td>RETAIN</td>
-    </tr>
-    <tr>
-    	<td>PUBACK</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>CONNECT</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>PUBREC</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>PUBREL</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>PUBCOMP</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>SUBSCRIBE</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>SUBACK</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>UNSUBSCRIBE</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>UNSUBACK</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>PINGREQ</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>PINGRESP</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>DISCONNECT</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-    	<td>CONNECT</td>
-        <td>保留</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>    
-</table>
-
-
-
+| 报文类型    | 固定头标记         | Bit 3 | Bit 2 | Bit 1 | Bit 0  |
+| ----------- | ------------------ | ----- | ----- | ----- | ------ |
+| CONNECT     | 保留               | 0     | 0     | 0     | 0      |
+| CONNACK     | 保留               | 0     | 0     | 0     | 0      |
+| PUBLISH     | Used in MQTT 3.1.1 | DUP   | QoS   | QoS   | RETAIN |
+| PUBACK      | 保留               | 0     | 0     | 0     | 0      |
+| PUBREC      | 保留               | 0     | 0     | 0     | 0      |
+| PUBREL      | 保留               | 0     | 0     | 1     | 0      |
+| PUBCOMP     | 保留               | 0     | 0     | 0     | 0      |
+| SUBSCRIBE   | 保留               | 0     | 0     | 1     | 0      |
+| SUBACK      | 保留               | 0     | 0     | 0     | 0      |
+| UNSUBACRIBE | 保留               | 0     | 0     | 1     | 0      |
+| UNSUBACK    | 保留               | 0     | 0     | 0     | 0      |
+| PINGREQ     | 保留               | 0     | 0     | 0     | 0      |
+| PINGRESP    | 保留               | 0     | 0     | 0     | 0      |
+| DISCONNECT  | 保留               | 0     | 0     | 0     | 0      |
 
 当发布PUBLISH消息时，如果DUP字段(bit 3)设置为1，表明这是一条重复消息，否则是第一次发布消息。为了保证消息的可靠性传递，当QoS设置为1时，客户端或服务器发布消息时，需要得到对方的确认(PUBACK)，如果一段时间后没收到PUBACK，那么会再次发送当前消息，并将DUP字段标记为1。
 
