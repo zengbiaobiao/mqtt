@@ -1,0 +1,2 @@
+http://www.steves-internet-guide.com/understanding-mqtt-qos-2/
+https://blog.csdn.net/libaineu2004/article/details/78813908
